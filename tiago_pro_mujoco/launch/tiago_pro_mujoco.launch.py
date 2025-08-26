@@ -60,9 +60,9 @@ class LaunchArguments(LaunchArgumentsBase):
     moveit: DeclareLaunchArgument = CommonArgs.moveit
     tuck_arm: DeclareLaunchArgument = CommonArgs.tuck_arm
     is_public_sim: DeclareLaunchArgument = CommonArgs.is_public_sim
-    mujoco: DeclareLaunchArgument = CommonArgs.mujoco
+    sim_type: DeclareLaunchArgument = CommonArgs.sim_type
     mj_control: DeclareLaunchArgument = CommonArgs.mj_control
-    mj_simulate: DeclareLaunchArgument = CommonArgs.mj_simulate
+    mj_world_name: DeclareLaunchArgument = CommonArgs.mj_world_name
 
 
 def declare_actions(launch_description: LaunchDescription, launch_args: LaunchArguments):
@@ -71,26 +71,8 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
     set_sim_time = SetLaunchConfiguration("use_sim_time", "True")
     launch_description.add_action(set_sim_time)
 
-    set_mujoco = SetLaunchConfiguration('mujoco', 'true')
-    launch_description.add_action(set_mujoco)
-
-    set_end_effector_left = SetLaunchConfiguration('end_effector_left','pal-pro-gripper')
-    launch_description.add_action(set_end_effector_left)
-
-    set_end_effector_right = SetLaunchConfiguration('end_effector_right','pal-pro-gripper')
-    launch_description.add_action(set_end_effector_right)
-
-    set_wrist_model_left = SetLaunchConfiguration('wrist_model_left','spherical-wrist')
-    launch_description.add_action(set_wrist_model_left)
-
-    set_wrist_model_right = SetLaunchConfiguration('wrist_model_right','spherical-wrist')
-    launch_description.add_action(set_wrist_model_right)
-
-    set_arm_type_right = SetLaunchConfiguration('arm_type_right','tiago-pro')
-    launch_description.add_action(set_arm_type_right)
-
-    set_arm_type_left = SetLaunchConfiguration('arm_type_left','tiago-pro')
-    launch_description.add_action(set_arm_type_left)
+    set_sim_type = SetLaunchConfiguration('sim_type', 'mujoco-ros2-control')
+    launch_description.add_action(set_sim_type)
 
     # Shows error if is_public_sim is not set to True when using public simulation
     public_sim_check = CheckPublicSim()
@@ -98,6 +80,7 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
 
     robot_name = "tiago_pro"
 
+    # Import controller configuration files
     tiago_pro_controller_path = os.path.join(get_package_share_directory('tiago_pro_controller_configuration'))
     head_controller_path = os.path.join(get_package_share_directory('tiago_pro_head_controller_configuration'))
     arm_controller_path = os.path.join(get_package_share_directory('pal_sea_arm_controller_configuration'))
@@ -124,7 +107,8 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
                                     base_controller_yaml,
                                     head_controller_yaml, 
                                     joint_state_broadcaster_yaml, 
-                                    torso_controller_yaml ])
+                                    torso_controller_yaml 
+                                    ])
 
     launch_description.add_action(OpaqueFunction(
         function=mujoco_model_publisher))
@@ -177,9 +161,9 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
             "camera_model": launch_args.camera_model,
             "base_type": launch_args.base_type,
             "is_public_sim": launch_args.is_public_sim,
-            "mujoco": launch_args.mujoco,
-            "mj_control": launch_args.mj_control,
-            "mj_simulate": launch_args.mj_simulate,
+            "sim_type": LaunchConfiguration("sim_type"),
+            "mj_control": LaunchConfiguration("mj_control"),
+            "mj_world_name": LaunchConfiguration("mj_world_name"),
             }  
     )
 
@@ -200,9 +184,8 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
 def mujoco_model_publisher(context, *args, **kwargs):
     xacro_input_args = {
             "robot_name": "tiago_pro",
-            "mujoco": LaunchConfiguration("mujoco").perform(context),
+            "sim_type": LaunchConfiguration("sim_type").perform(context),
             "mj_control": LaunchConfiguration("mj_control").perform(context),
-            "mj_simulate": LaunchConfiguration("mj_simulate").perform(context),
             "base_type": LaunchConfiguration("base_type"),
             "end_effector_left": LaunchConfiguration("end_effector_left"),
             "end_effector_right": LaunchConfiguration("end_effector_right"),
@@ -210,6 +193,7 @@ def mujoco_model_publisher(context, *args, **kwargs):
             "arm_type_right": LaunchConfiguration("arm_type_right"),
             "wrist_model_left": LaunchConfiguration("wrist_model_left"),
             "wrist_model_right": LaunchConfiguration("wrist_model_right"),
+            "mj_world_name": LaunchConfiguration("mj_world_name").perform(context),
     }
     
     model_pub = Node(
