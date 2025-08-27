@@ -14,9 +14,6 @@
 
 
 import os
-import yaml
-import tempfile
-from os import environ, pathsep
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
@@ -62,7 +59,7 @@ class LaunchArguments(LaunchArgumentsBase):
     is_public_sim: DeclareLaunchArgument = CommonArgs.is_public_sim
     sim_type: DeclareLaunchArgument = CommonArgs.sim_type
     mj_control: DeclareLaunchArgument = CommonArgs.mj_control
-    mj_world_name: DeclareLaunchArgument = CommonArgs.mj_world_name
+    world_name: DeclareLaunchArgument = CommonArgs.world_name
 
 
 def declare_actions(launch_description: LaunchDescription, launch_args: LaunchArguments):
@@ -71,8 +68,13 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
     set_sim_time = SetLaunchConfiguration("use_sim_time", "True")
     launch_description.add_action(set_sim_time)
 
+    # Set simulation_type to Mujoco Ros2 Control
     set_sim_type = SetLaunchConfiguration('sim_type', 'mujoco-ros2-control')
     launch_description.add_action(set_sim_type)
+
+    # Set world for Mujoco simulation
+    set_world_name = SetLaunchConfiguration('world_name', 'floor')
+    launch_description.add_action(set_world_name)
 
     # Shows error if is_public_sim is not set to True when using public simulation
     public_sim_check = CheckPublicSim()
@@ -81,33 +83,46 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
     robot_name = "tiago_pro"
 
     # Import controller configuration files
-    tiago_pro_controller_path = os.path.join(get_package_share_directory('tiago_pro_controller_configuration'))
-    head_controller_path = os.path.join(get_package_share_directory('tiago_pro_head_controller_configuration'))
-    arm_controller_path = os.path.join(get_package_share_directory('pal_sea_arm_controller_configuration'))
-    base_controller_path = os.path.join(get_package_share_directory('omni_base_controller_configuration'))
-    gripper_controller_path= os.path.join(get_package_share_directory('pal_pro_gripper_controller_configuration'))
+    tiago_pro_controller_path = os.path.join(
+        get_package_share_directory('tiago_pro_controller_configuration'))
+    head_controller_path = os.path.join(get_package_share_directory(
+        'tiago_pro_head_controller_configuration'))
+    arm_controller_path = os.path.join(
+        get_package_share_directory('pal_sea_arm_controller_configuration'))
+    base_controller_path = os.path.join(
+        get_package_share_directory('omni_base_controller_configuration'))
+    gripper_controller_path = os.path.join(
+        get_package_share_directory('pal_pro_gripper_controller_configuration'))
 
-    controller_manager_config_yaml = os.path.join(tiago_pro_controller_path, 'config', 'mujoco_controller_manager_cfg.yaml')
-    torso_controller_yaml = os.path.join(tiago_pro_controller_path, 'config', 'torso_controller.yaml')
-    joint_state_broadcaster_yaml = os.path.join(tiago_pro_controller_path, 'config', 'joint_state_broadcaster.yaml')
+    controller_manager_config_yaml = os.path.join(
+        tiago_pro_controller_path, 'config', 'mujoco_controller_manager_cfg.yaml')
+    torso_controller_yaml = os.path.join(
+        tiago_pro_controller_path, 'config', 'torso_controller.yaml')
+    joint_state_broadcaster_yaml = os.path.join(
+        tiago_pro_controller_path, 'config', 'joint_state_broadcaster.yaml')
     head_controller_yaml = os.path.join(head_controller_path, 'config', 'head_controller.yaml')
     arm_controller_yaml = os.path.join(arm_controller_path, 'config', 'arm_controller.yaml')
-    base_controller_yaml = os.path.join(base_controller_path, 'config', 'mobile_base_controller.yaml')
-    gripper_controller_yaml = os.path.join(gripper_controller_path, 'config', 'gripper_controller.yaml')
+    base_controller_yaml = os.path.join(
+        base_controller_path, 'config', 'mobile_base_controller.yaml')
+    gripper_controller_yaml = os.path.join(
+        gripper_controller_path, 'config', 'gripper_controller.yaml')
 
-    arm_left_controller_yaml, arm_right_controller_yaml = generate_arm_controller_configs(arm_controller_yaml, arm_controller_path)
-    gripper_left_controller_yaml,gripper_right_controller_yaml = generate_gripper_controller_configs(gripper_controller_yaml, gripper_controller_path)
-    
+    arm_left_controller_yaml, arm_right_controller_yaml = generate_arm_controller_configs(
+        arm_controller_yaml, arm_controller_path)
+    gripper_left_controller_yaml, gripper_right_controller_yaml = \
+        generate_gripper_controller_configs(
+            gripper_controller_yaml, gripper_controller_path)
+
     merged_yaml = merge_param_files([
                                     controller_manager_config_yaml,
-                                    arm_right_controller_yaml, 
-                                    arm_left_controller_yaml, 
+                                    arm_right_controller_yaml,
+                                    arm_left_controller_yaml,
                                     gripper_left_controller_yaml,
                                     gripper_right_controller_yaml,
                                     base_controller_yaml,
-                                    head_controller_yaml, 
-                                    joint_state_broadcaster_yaml, 
-                                    torso_controller_yaml 
+                                    head_controller_yaml,
+                                    joint_state_broadcaster_yaml,
+                                    torso_controller_yaml
                                     ])
 
     launch_description.add_action(OpaqueFunction(
@@ -118,7 +133,7 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
         executable='mujoco_ros2_control',
         output='screen',
         parameters=[merged_yaml, {'use_sim_time': True}],
-    ) 
+    )
     launch_description.add_action(node_mujoco_ros2_control)
 
     move_group = include_scoped_launch_py_description(
@@ -155,16 +170,14 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
             "ft_sensor_left": launch_args.ft_sensor_left,
             "tool_changer_right": launch_args.tool_changer_right,
             "tool_changer_left": launch_args.tool_changer_left,
-            "wrist_model_right": launch_args.wrist_model_right,
-            "wrist_model_left": launch_args.wrist_model_left,
             "laser_model": launch_args.laser_model,
             "camera_model": launch_args.camera_model,
             "base_type": launch_args.base_type,
             "is_public_sim": launch_args.is_public_sim,
             "sim_type": LaunchConfiguration("sim_type"),
             "mj_control": LaunchConfiguration("mj_control"),
-            "mj_world_name": LaunchConfiguration("mj_world_name"),
-            }  
+            "world_name": LaunchConfiguration("world_name"),
+        }
     )
 
     launch_description.add_action(tiago_bringup)
@@ -181,29 +194,31 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
 
     return
 
+
 def mujoco_model_publisher(context, *args, **kwargs):
     xacro_input_args = {
-            "robot_name": "tiago_pro",
-            "sim_type": LaunchConfiguration("sim_type").perform(context),
-            "mj_control": LaunchConfiguration("mj_control").perform(context),
-            "base_type": LaunchConfiguration("base_type"),
-            "end_effector_left": LaunchConfiguration("end_effector_left"),
-            "end_effector_right": LaunchConfiguration("end_effector_right"),
-            "arm_type_left": LaunchConfiguration("arm_type_left"),
-            "arm_type_right": LaunchConfiguration("arm_type_right"),
-            "wrist_model_left": LaunchConfiguration("wrist_model_left"),
-            "wrist_model_right": LaunchConfiguration("wrist_model_right"),
-            "mj_world_name": LaunchConfiguration("mj_world_name").perform(context),
+        "robot_name": "tiago_pro",
+        "sim_type": LaunchConfiguration("sim_type").perform(context),
+        "mj_control": LaunchConfiguration("mj_control").perform(context),
+        "base_type": LaunchConfiguration("base_type"),
+        "end_effector_left": LaunchConfiguration("end_effector_left"),
+        "end_effector_right": LaunchConfiguration("end_effector_right"),
+        "arm_type_left": LaunchConfiguration("arm_type_left"),
+        "arm_type_right": LaunchConfiguration("arm_type_right"),
+        "wrist_model_left": LaunchConfiguration("wrist_model_left"),
+        "wrist_model_right": LaunchConfiguration("wrist_model_right"),
+        "world_name": LaunchConfiguration("world_name").perform(context),
     }
-    
+
     model_pub = Node(
         package='pal_mujoco_model_loader_ros',
         executable='publisher',
         parameters=[xacro_input_args],
         output='screen'
     )
-    
+
     return [model_pub]
+
 
 def generate_arm_controller_configs(arm_controller_yaml, arm_controller_path):
 
@@ -211,36 +226,42 @@ def generate_arm_controller_configs(arm_controller_yaml, arm_controller_path):
         content = file.read()
 
     left_content = content.replace('${ARM_SIDE_PREFIX}', 'arm_left')
-    arm_left_controller_yaml = os.path.join(arm_controller_path, 'config', 'arm_left_controller.yaml')
-    
+    arm_left_controller_yaml = os.path.join(
+        arm_controller_path, 'config', 'arm_left_controller.yaml')
+
     with open(arm_left_controller_yaml, 'w') as left_file:
         left_file.write(left_content)
 
     right_content = content.replace('${ARM_SIDE_PREFIX}', 'arm_right')
-    arm_right_controller_yaml = os.path.join(arm_controller_path, 'config', 'arm_right_controller.yaml')
-    
+    arm_right_controller_yaml = os.path.join(
+        arm_controller_path, 'config', 'arm_right_controller.yaml')
+
     with open(arm_right_controller_yaml, 'w') as right_file:
         right_file.write(right_content)
 
     return arm_left_controller_yaml, arm_right_controller_yaml
 
+
 def generate_gripper_controller_configs(gripper_controller_yaml, gripper_controller_path):
     with open(gripper_controller_yaml, 'r') as file:
-            content = file.read()
+        content = file.read()
 
-    left_content = content.replace('${EE_SIDE_PREFIX}', f'gripper_left_inner')
-    gripper_left_controller_yaml = os.path.join(gripper_controller_path, 'config', f'gripper_left_controller.yaml')
-    
+    left_content = content.replace('${EE_SIDE_PREFIX}', 'gripper_left_inner')
+    gripper_left_controller_yaml = os.path.join(
+        gripper_controller_path, 'config', 'gripper_left_controller.yaml')
+
     with open(gripper_left_controller_yaml, 'w') as left_file:
         left_file.write(left_content)
-    
-    right_content = content.replace('${EE_SIDE_PREFIX}', f'gripper_right_inner')
-    gripper_right_controller_yaml = os.path.join(gripper_controller_path, 'config', f'gripper_right_controller.yaml')
-    
-    with open( gripper_right_controller_yaml, 'w') as right_file:
+
+    right_content = content.replace('${EE_SIDE_PREFIX}', 'gripper_right_inner')
+    gripper_right_controller_yaml = os.path.join(
+        gripper_controller_path, 'config', 'gripper_right_controller.yaml')
+
+    with open(gripper_right_controller_yaml, 'w') as right_file:
         right_file.write(right_content)
-    
+
     return gripper_left_controller_yaml, gripper_right_controller_yaml
+
 
 def generate_launch_description():
 
