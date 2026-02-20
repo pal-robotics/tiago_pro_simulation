@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>tiago_pro_mujoco</name>
-  <version>1.10.1</version>
+  <version>1.14.1</version>
   <description>The tiago_pro_mujoco package</description>
 
   <maintainer email="narcis.miguel@pal-robotics.com">Narcis Miguel</maintainer>
@@ -11,19 +11,15 @@
 
   <buildtool_depend>ament_cmake_auto</buildtool_depend>
 
-  
-  <exec_depend>pal_maps</exec_depend>
   <exec_depend>tiago_pro_bringup</exec_depend>
   <exec_depend>pal_pro_gripper_description</exec_depend>
-  <exec_depend>allegro_hand_description</exec_depend>
+  <exec_depend condition="$PAL_DISTRO >= alum">allegro_hand_description</exec_depend>
   <exec_depend>tiago_pro_head_description</exec_depend>
   <exec_depend>omni_base_description</exec_depend>
   <exec_depend>tiago_pro_description</exec_depend>
   <exec_depend>tiago_pro_moveit_config</exec_depend>
-  <exec_depend>tiago_pro_2dnav</exec_depend>
   <exec_depend>tiago_pro_laser_sensors</exec_depend>
   <exec_depend>pal_urdf_utils</exec_depend>
-
   <exec_depend condition="$PAL_DISTRO >= alum">robot_info_publisher</exec_depend>
 
   <exec_depend>launch</exec_depend>
