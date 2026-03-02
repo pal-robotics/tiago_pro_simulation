@@ -61,6 +61,7 @@ class LaunchArguments(LaunchArgumentsBase):
     is_public_sim: DeclareLaunchArgument = CommonArgs.is_public_sim
     sim_type: DeclareLaunchArgument = CommonArgs.sim_type
     mj_control: DeclareLaunchArgument = CommonArgs.mj_control
+    mj_initial_pose: DeclareLaunchArgument = CommonArgs.mj_initial_pose
 
 
 def declare_actions(launch_description: LaunchDescription, launch_args: LaunchArguments):
@@ -80,10 +81,6 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
     # Shows error if is_public_sim is not set to True when using public simulation
     public_sim_check = CheckPublicSim()
     launch_description.add_action(public_sim_check)
-
-    #  Set type of MuJoCo actuators
-    # mj_actuators = SetLaunchConfiguration('mj_control', 'motor')
-    # launch_description.add_action(mj_actuators)
 
     robot_name = "tiago_pro"
 
@@ -108,12 +105,14 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
             "camera_model": launch_args.camera_model,
             "base_type": launch_args.base_type,
             "is_public_sim": launch_args.is_public_sim,
+            "has_wrist_camera": launch_args.has_wrist_camera,
             "sim_type": LaunchConfiguration("sim_type"),
             "mj_control": LaunchConfiguration("mj_control"),
             "world_name": LaunchConfiguration("world_name"),
             'ft_sensor_teleop_right': launch_args.ft_sensor_teleop_right,
             'ft_sensor_teleop_left': launch_args.ft_sensor_teleop_left,
-            'has_teleop_arms': launch_args.has_teleop_arms
+            'has_teleop_arms': launch_args.has_teleop_arms,
+            'mj_initial_pose':launch_args.mj_initial_pose
         }
     )
 
