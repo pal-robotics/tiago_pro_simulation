@@ -112,7 +112,7 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
             'ft_sensor_teleop_right': launch_args.ft_sensor_teleop_right,
             'ft_sensor_teleop_left': launch_args.ft_sensor_teleop_left,
             'has_teleop_arms': launch_args.has_teleop_arms,
-            'mj_initial_pose':launch_args.mj_initial_pose
+            'mj_initial_pose': launch_args.mj_initial_pose
         }
     )
 
@@ -121,10 +121,14 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
     # Launch the conversion node
     def converter_node_setup(context, *args, **kwargs):
         args_list = [
+            # "-c",
             "-p", "mujoco_robot_description",
             "--no-fuse",
             "-f",
+            # "-a", "/home/ortisapoci/exchange/tiago_pro_nasa_test_ws/mjcf_data2/assets",
             "-a", omni_base_asset_path,
+            "-s", 
+            "-o", "/home/ortisapoci/exchange/tiago_pro_nasa_test_ws/mjcf_data",
         ]
         return [Node(
             package="mujoco_ros2_control",
