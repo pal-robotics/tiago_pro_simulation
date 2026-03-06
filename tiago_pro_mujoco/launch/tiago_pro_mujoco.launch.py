@@ -86,7 +86,7 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
 
     # Use decomposed meshes for the base of the robot
     omni_base_asset_path = os.path.join(
-        get_package_share_directory('omni_base_description'), 
+        get_package_share_directory('omni_base_description'),
         'mujoco', 'assets'
     )
 
