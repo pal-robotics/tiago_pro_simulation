@@ -57,7 +57,6 @@ class LaunchArguments(LaunchArgumentsBase):
     has_wrist_camera: DeclareLaunchArgument = TiagoProArgs.has_wrist_camera
     moveit: DeclareLaunchArgument = CommonArgs.moveit
     world_name: DeclareLaunchArgument = CommonArgs.world_name
-    tuck_arm: DeclareLaunchArgument = CommonArgs.tuck_arm
     is_public_sim: DeclareLaunchArgument = CommonArgs.is_public_sim
     sim_type: DeclareLaunchArgument = CommonArgs.sim_type
     mj_control: DeclareLaunchArgument = CommonArgs.mj_control
@@ -173,16 +172,6 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
         condition=IfCondition(LaunchConfiguration("moveit")))
 
     launch_description.add_action(move_group)
-
-    tuck_arm = Node(
-        package="tiago_pro_gazebo",
-        executable="tuck_arm.py",
-        emulate_tty=True,
-        output="both",
-        condition=IfCondition(LaunchConfiguration('tuck_arm'))
-    )
-
-    launch_description.add_action(tuck_arm)
 
     return
 
