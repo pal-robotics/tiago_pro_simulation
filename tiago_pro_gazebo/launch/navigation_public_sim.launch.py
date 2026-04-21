@@ -33,7 +33,6 @@ class LaunchArguments(LaunchArgumentsBase):
     use_sim_time: DeclareLaunchArgument = CommonArgs.use_sim_time
     rviz: DeclareLaunchArgument = CommonArgs.rviz
 
-
 def generate_launch_description():
 
     # Create the launch description and populate
@@ -51,10 +50,11 @@ def declare_actions(
     launch_description: LaunchDescription, launch_args: LaunchArguments
 ):
     public_nav_params = PathJoinSubstitution([
-        FindPackageShare(PythonExpression(["'", LaunchConfiguration('base_type'), "'_2dnav"])),
+        get_package_share_directory('omni_base_2dnav'),
         'config',
         'nav_public_sim.yaml',
     ])
+
 
     # Navigation
     navigation = include_scoped_launch_py_description(
