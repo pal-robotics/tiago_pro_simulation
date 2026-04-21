@@ -19,8 +19,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition, UnlessCondition
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
-from launch_ros.substitutions import FindPackageShare
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_pal.robot_arguments import CommonArgs
 from launch_pal.arg_utils import LaunchArgumentsBase
 from launch_pal.include_utils import include_scoped_launch_py_description
@@ -32,6 +31,7 @@ class LaunchArguments(LaunchArgumentsBase):
     slam: DeclareLaunchArgument = CommonArgs.slam
     use_sim_time: DeclareLaunchArgument = CommonArgs.use_sim_time
     rviz: DeclareLaunchArgument = CommonArgs.rviz
+
 
 def generate_launch_description():
 
@@ -54,7 +54,6 @@ def declare_actions(
         'config',
         'nav_public_sim.yaml',
     ])
-
 
     # Navigation
     navigation = include_scoped_launch_py_description(
