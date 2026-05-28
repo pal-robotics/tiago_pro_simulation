@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>tiago_pro_mujoco</name>
+  <version>1.14.1</version>
+  <description>The tiago_pro_mujoco package</description>
+
+  <maintainer email="narcis.miguel@pal-robotics.com">Narcis Miguel</maintainer>
+  <maintainer email="ilenia.perrella@pal-robotics.com">Ilenia Perrella</maintainer>
+
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>ament_cmake_auto</buildtool_depend>
+
+  <exec_depend>tiago_pro_bringup</exec_depend>
+  <exec_depend>pal_pro_gripper_description</exec_depend>
+  <exec_depend condition="$PAL_DISTRO >= alum">allegro_hand_description</exec_depend>
+  <exec_depend>tiago_pro_head_description</exec_depend>
+  <exec_depend>omni_base_description</exec_depend>
+  <exec_depend>tiago_pro_description</exec_depend>
+  <exec_depend>tiago_pro_moveit_config</exec_depend>
+  <exec_depend>tiago_pro_laser_sensors</exec_depend>
+  <exec_depend>pal_urdf_utils</exec_depend>
+  <exec_depend condition="$PAL_DISTRO >= alum">robot_info_publisher</exec_depend>
+  <exec_depend>mujoco_ros2_control</exec_depend>
+
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_pal</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>play_motion2_msgs</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+
+</package>

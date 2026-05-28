@@ -1,0 +1,269 @@
+/**:
+  ros__parameters:
+    pid_gains:
+      position:
+        arm_left_1_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 43.0
+          u_clamp_min: -43.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_left_2_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 43.0
+          u_clamp_min: -43.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_left_3_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_left_4_joint:
+          p: 500.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_left_5_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_left_6_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_left_7_joint:
+          p: 500.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        gripper_left_finger_joint:
+          p: 100.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 8.0
+          u_clamp_min: -8.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_right_1_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 43.0
+          u_clamp_min: -43.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_right_2_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 43.0
+          u_clamp_min: -43.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_right_3_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_right_4_joint:
+          p: 500.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_right_5_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_right_6_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_right_7_joint:
+          p: 500.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        gripper_right_finger_joint:
+          p: 100.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 8.0
+          u_clamp_min: -8.0
+          i_clamp_max: 0.0
+          i_clamp_min: 0.0
+        torso_lift_joint:
+          p: 10000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 2000.0
+          u_clamp_min: -2000.0
+          i_clamp_max: 0.0
+          i_clamp_min: 0.0
+        head_1_joint:
+          p: 2000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 5.197
+          u_clamp_min: -5.197
+          i_clamp_max: 0.0
+          i_clamp_min: 0.0
+        head_2_joint:
+          p: 2000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 2.77
+          u_clamp_min: -2.77
+          i_clamp_max: 0.0
+          i_clamp_min: 0.0     
+        arm_teleop_left_1_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 43.0
+          u_clamp_min: -43.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_teleop_left_2_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 43.0
+          u_clamp_min: -43.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_teleop_left_3_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_teleop_left_4_joint:
+          p: 500.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_teleop_left_5_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_teleop_left_6_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_teleop_left_7_joint:
+          p: 500.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_teleop_right_1_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 43.0
+          u_clamp_min: -43.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_teleop_right_2_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 43.0
+          u_clamp_min: -43.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_teleop_right_3_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_teleop_right_4_joint:
+          p: 500.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_teleop_right_5_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_teleop_right_6_joint:
+          p: 1000.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        arm_teleop_right_7_joint:
+          p: 500.0
+          i: 0.0
+          d: 0.0
+          u_clamp_max: 26.0
+          u_clamp_min: -26.0
+          i_clamp_max: 10.0
+          i_clamp_min: -10.0
+        
