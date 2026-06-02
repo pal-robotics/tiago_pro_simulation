@@ -2,6 +2,12 @@
 Changelog for package tiago_pro_gazebo
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* stores_server log level
+* separate advanced docking
+* Contributors: antoniobrandi
+
 1.16.0 (2026-03-30)
 -------------------
 * Add gz bridge

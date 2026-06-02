@@ -2,6 +2,11 @@
 Changelog for package tiago_pro_simulation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* add tiago_pro_mujoco exec dependence
+* Contributors: Ortisa Poci
+
 1.16.0 (2026-03-30)
 -------------------
 
