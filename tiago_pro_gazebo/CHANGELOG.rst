@@ -2,8 +2,8 @@
 Changelog for package tiago_pro_gazebo
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.17.0 (2026-06-02)
+-------------------
 * stores_server log level
 * separate advanced docking
 * Contributors: antoniobrandi

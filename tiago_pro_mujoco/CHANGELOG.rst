@@ -2,8 +2,8 @@
 Changelog for package tiago_pro_mujoco
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.17.0 (2026-06-02)
+-------------------
 * fix versions
 * remove the tuck_arm script for the home motion
 * add mujoco-ros2-control dependence
