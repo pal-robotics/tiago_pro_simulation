@@ -19,8 +19,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition, UnlessCondition
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
-from launch_ros.substitutions import FindPackageShare
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_pal.robot_arguments import CommonArgs
 from launch_pal.arg_utils import LaunchArgumentsBase
 from launch_pal.include_utils import include_scoped_launch_py_description
@@ -51,7 +50,7 @@ def declare_actions(
     launch_description: LaunchDescription, launch_args: LaunchArguments
 ):
     public_nav_params = PathJoinSubstitution([
-        FindPackageShare(PythonExpression(["'", LaunchConfiguration('base_type'), "'_2dnav"])),
+        get_package_share_directory('omni_base_2dnav'),
         'config',
         'nav_public_sim.yaml',
     ])
