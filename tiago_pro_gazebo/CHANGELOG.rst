@@ -2,6 +2,15 @@
 Changelog for package tiago_pro_gazebo
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add missing dependency ros_gz_sim
+* linters
+* typo
+* Update package.xml
+* Non-passed argument issue removed
+* Contributors: Narcis Miguel, Noel Jimenez, martinaannicelli
+
 1.17.0 (2026-06-02)
 -------------------
 * stores_server log level

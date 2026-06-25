@@ -2,6 +2,9 @@
 Changelog for package tiago_pro_mujoco
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.17.0 (2026-06-02)
 -------------------
 * fix versions
