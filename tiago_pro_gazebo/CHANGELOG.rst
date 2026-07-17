@@ -2,8 +2,8 @@
 Changelog for package tiago_pro_gazebo
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.18.0 (2026-07-17)
+-------------------
 * start apps using localization manager
 * Contributors: antoniobrandi
 
