@@ -2,6 +2,11 @@
 Changelog for package tiago_pro_gazebo
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* start apps using localization manager
+* Contributors: antoniobrandi
+
 1.17.1 (2026-06-25)
 -------------------
 * Add missing dependency ros_gz_sim
