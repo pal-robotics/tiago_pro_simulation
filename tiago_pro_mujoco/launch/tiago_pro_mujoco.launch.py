@@ -23,7 +23,8 @@ from launch.actions import (
     OpaqueFunction,
 )
 from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration,  PythonExpression
+
 from launch_pal.include_utils import (
     include_scoped_launch_py_description,
 )
@@ -74,8 +75,16 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
     launch_description.add_action(set_sim_type)
 
     # Set world for Mujoco simulation
-    set_world_name = SetLaunchConfiguration('world_name', 'floor')
-    launch_description.add_action(set_world_name)
+    world_name = SetLaunchConfiguration(
+        "world_name",
+        "floor",
+        condition=IfCondition(
+            PythonExpression([
+                "'", LaunchConfiguration("world_name"), "' == 'pal_office'"
+            ])
+        )
+    )
+    launch_description.add_action(world_name)
 
     # Shows error if is_public_sim is not set to True when using public simulation
     public_sim_check = CheckPublicSim()
