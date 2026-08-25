@@ -97,6 +97,10 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
         get_package_share_directory('omni_base_description'),
         'mujoco', 'assets'
     )
+    mujoco_plugins_path = os.path.join(
+        get_package_share_directory('tiago_pro_mujoco'),
+        'config', 'mujoco_ros2_control_plugins.yaml'
+    )
 
     tiago_bringup = include_scoped_launch_py_description(
         pkg_name="tiago_pro_bringup", paths=["launch", "tiago_pro_bringup.launch.py"],
@@ -154,6 +158,7 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
         output="both",
         parameters=[
             {"use_sim_time": LaunchConfiguration("use_sim_time")},
+            mujoco_plugins_path,
         ],
     )
 
