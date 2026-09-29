@@ -23,7 +23,7 @@ from launch.actions import (
     OpaqueFunction,
 )
 from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration,  PythonExpression
+from launch.substitutions import LaunchConfiguration
 
 from launch_pal.include_utils import (
     include_scoped_launch_py_description,
@@ -74,18 +74,6 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
     set_sim_type = SetLaunchConfiguration('sim_type', 'mujoco-ros2-control')
     launch_description.add_action(set_sim_type)
 
-    # Set world for Mujoco simulation
-    world_name = SetLaunchConfiguration(
-        "world_name",
-        "floor",
-        condition=IfCondition(
-            PythonExpression([
-                "'", LaunchConfiguration("world_name"), "' == 'pal_office'"
-            ])
-        )
-    )
-    launch_description.add_action(world_name)
-
     # Shows error if is_public_sim is not set to True when using public simulation
     public_sim_check = CheckPublicSim()
     launch_description.add_action(public_sim_check)
@@ -123,7 +111,7 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
             "has_wrist_camera": launch_args.has_wrist_camera,
             "sim_type": LaunchConfiguration("sim_type"),
             "mj_control": LaunchConfiguration("mj_control"),
-            "world_name": LaunchConfiguration("world_name"),
+            "world_name": launch_args.world_name,
             'ft_sensor_teleop_right': launch_args.ft_sensor_teleop_right,
             'ft_sensor_teleop_left': launch_args.ft_sensor_teleop_left,
             'has_teleop_arms': launch_args.has_teleop_arms,
