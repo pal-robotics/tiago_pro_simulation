@@ -66,6 +66,19 @@ class LaunchArguments(LaunchArgumentsBase):
 
 def declare_actions(launch_description: LaunchDescription, launch_args: LaunchArguments):
 
+    # Check that the requested MuJoCo scene exists before the xacro is processed
+    def check_world_name(context, *args, **kwargs):
+        world_name = LaunchConfiguration("world_name").perform(context)
+        scenes_dir = os.path.join(get_package_share_directory("pal_mujoco_scenes"), "scenes")
+        available_scenes = sorted(
+            os.path.splitext(f)[0] for f in os.listdir(scenes_dir) if f.endswith(".xacro"))
+        if world_name not in available_scenes:
+            raise RuntimeError(
+                f"MuJoCo scene '{world_name}' not found in {scenes_dir}. "
+                f"Available scenes: {', '.join(available_scenes)}")
+        return []
+    launch_description.add_action(OpaqueFunction(function=check_world_name))
+
     # Set use_sim_time to True
     set_sim_time = SetLaunchConfiguration("use_sim_time", "True")
     launch_description.add_action(set_sim_time)
