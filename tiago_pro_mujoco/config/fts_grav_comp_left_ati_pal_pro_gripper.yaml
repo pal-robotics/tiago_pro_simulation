@@ -1,0 +1,17 @@
+# Gravity compensation of the left wrist force/torque sensor (FtsGravCompPlugin):
+# ati sensor, pal-pro-gripper.
+# Loaded by tiago_pro_mujoco.launch.py when ft_sensor_left:=ati and end_effector_left:=pal-pro-gripper.
+# In the generated MJCF the arm_left_tool_link site belongs to the arm_left_7_link body, so the
+# MuJoCo sensor carries the whole arm_left_7_link subtree: arm_7, tool link, sensor, tool changer
+# and end effector. Values from the URDF masses, with tool changer, CoG in the arm_left_tool_link
+# site frame. Without tool changer: mass 1.2224 kg, CoG z 0.0496 m.
+/**:
+  ros__parameters:
+    mujoco_plugins:
+      fts_grav_comp_left:
+        type: "mujoco_ros2_control_plugins/FtsGravCompPlugin"
+        wrist_left_ft_sensor:
+          frame_id: arm_left_tool_link
+          CoG:
+            pos: [-0.0004, 0.0004, 0.0728]
+            mass: 1.1764
