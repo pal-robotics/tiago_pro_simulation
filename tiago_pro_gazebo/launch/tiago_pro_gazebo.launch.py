@@ -13,34 +13,31 @@
 # limitations under the License.
 
 
+from dataclasses import dataclass
 import os
 from os import environ, pathsep
+
 from ament_index_python.packages import get_package_prefix
 
 from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument,
+    OpaqueFunction,
     SetEnvironmentVariable,
     SetLaunchConfiguration,
-    OpaqueFunction,
 )
 from launch.conditions import IfCondition
-from launch.substitutions import (
-    LaunchConfiguration,
-    AndSubstitution,
-    NotSubstitution,
-)
+from launch.substitutions import AndSubstitution, LaunchConfiguration, NotSubstitution
+from launch_pal.actions import CheckPublicSim
+from launch_pal.arg_utils import LaunchArgumentsBase, read_launch_argument
+from launch_pal.conditions import UnlessNodeRunning
 from launch_pal.include_utils import (
     include_scoped_launch_py_description,
 )
-from launch_pal.actions import CheckPublicSim
 
-from launch_pal.arg_utils import LaunchArgumentsBase, read_launch_argument
 from launch_pal.robot_arguments import CommonArgs
-from launch_pal.conditions import UnlessNodeRunning
-from tiago_pro_description.launch_arguments import TiagoProArgs
-from dataclasses import dataclass
 from launch_ros.actions import Node
+from tiago_pro_description.launch_arguments import TiagoProArgs
 
 
 @dataclass(frozen=True)
@@ -120,13 +117,13 @@ def start_gazebo(context, *args, **kwargs):
         paths=['launch', 'pal_gazebo.launch.py'],
         env_vars=[gazebo_model_path_env_var],
         launch_arguments={
-            "world_name":  world_name,
-            "model_paths": packages,
-            "resource_paths": packages,
-            "gzclient": gzclient,
+            'world_name':  world_name,
+            'model_paths': packages,
+            'resource_paths': packages,
+            'gzclient': gzclient,
             'gazebo_version': gazebo_version,
         },
-        condition=UnlessNodeRunning("gazebo")
+        condition=UnlessNodeRunning('gazebo')
     )
 
     return [gazebo]
@@ -258,13 +255,13 @@ def declare_actions(
 
 
 def get_model_paths(packages_names):
-    model_paths = ""
+    model_paths = ''
     for package_name in packages_names:
-        if model_paths != "":
+        if model_paths != '':
             model_paths += pathsep
 
         package_path = get_package_prefix(package_name)
-        model_path = os.path.join(package_path, "share")
+        model_path = os.path.join(package_path, 'share')
 
         model_paths += model_path
 
