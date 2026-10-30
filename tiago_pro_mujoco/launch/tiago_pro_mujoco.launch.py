@@ -167,7 +167,7 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
             if os.path.exists(config_file):
                 parameters.append(config_file)
             else:
-                print(f'[tiago_pro_mujoco] No FTS gravity compensation for the {side} wrist: '
+                print(f'No FTS gravity compensation for the {side} wrist: '
                       f'{os.path.basename(config_file)} not found')
         return [Node(
             package="mujoco_ros2_control",
