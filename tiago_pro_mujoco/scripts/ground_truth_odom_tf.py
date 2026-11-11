@@ -21,12 +21,19 @@ simulation itself (BaseVelocityPlugin), so nothing publishes it. This node takes
 pose from the FreeJointStatePublisherPlugin, in the MuJoCo world frame, so odom is the MuJoCo
 world: perfect odometry, and the objects of the MuJoCo scene are at their true pose in odom.
 
-Parameters:
-  topic          - the FreeJointStatePublisherPlugin's topic; its frame_id must be empty (world)
-  body           - the base's free-joint body, default base_footprint
-  frame_id       - parent frame of the TF, default odom
-  child_frame_id - child frame of the TF, default the body
-  planar         - publish only x, y and yaw, as a wheeled base's odometry does (default true)
+Parameters
+----------
+topic : str
+    The FreeJointStatePublisherPlugin's topic; its frame_id must be empty (world).
+body : str
+    The base's free-joint body, default base_footprint.
+frame_id : str
+    Parent frame of the TF, default odom.
+child_frame_id : str
+    Child frame of the TF, default the body.
+planar : bool
+    Publish only x, y and yaw, as a wheeled base's odometry does (default true).
+
 """
 
 import math
