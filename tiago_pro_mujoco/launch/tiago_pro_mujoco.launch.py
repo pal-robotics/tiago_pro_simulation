@@ -165,6 +165,16 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
 
     launch_description.add_action(control_node)
 
+    # The TF odom -> base_footprint, from the base's true pose (nothing else publishes it in MuJoCo)
+    odom_tf_node = Node(
+        package="tiago_pro_mujoco",
+        executable="ground_truth_odom_tf.py",
+        output="both",
+        parameters=[{"use_sim_time": LaunchConfiguration("use_sim_time")}],
+    )
+
+    launch_description.add_action(odom_tf_node)
+
     move_group = include_scoped_launch_py_description(
         pkg_name="tiago_pro_moveit_config",
         paths=["launch", "move_group.launch.py"],
