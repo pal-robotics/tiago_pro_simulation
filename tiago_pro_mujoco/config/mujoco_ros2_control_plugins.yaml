@@ -13,7 +13,7 @@
         camera_publish_rate: 30.0
         head:
           policy: streaming
-          frame_name: head_front_camera_color_optical_frame
+          frame_name: head_front_camera_color_eye_frame
           info_topic: /head_front_camera/color/camera_info
           image_topic: /head_front_camera/color/image_raw
           depth_topic: /head_front_camera/aligned_depth_to_color/image_raw

@@ -22,6 +22,10 @@
   <exec_depend>pal_urdf_utils</exec_depend>
   <exec_depend condition="$PAL_DISTRO >= alum">robot_info_publisher</exec_depend>
   <exec_depend>mujoco_ros2_control</exec_depend>
+  <exec_depend>mujoco_ros2_control_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>tf2_ros_py</exec_depend>
   <exec_depend>pal_mujoco_scenes</exec_depend>
   <exec_depend>ament_index_python</exec_depend>
 
