@@ -16,19 +16,19 @@ from dataclasses import dataclass
 import os
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable, GroupAction
+from launch.actions import DeclareLaunchArgument, GroupAction, SetEnvironmentVariable
 from launch.conditions import IfCondition, UnlessCondition
 from launch.substitutions import (
     LaunchConfiguration,
     PathJoinSubstitution,
     PythonExpression,
 )
-from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
-from launch_pal.substitutions import RobotInfoFile
-from launch_pal.robot_arguments import CommonArgs
 from launch_pal.arg_utils import LaunchArgumentsBase
 from launch_pal.include_utils import include_scoped_launch_py_description
+from launch_pal.robot_arguments import CommonArgs
+from launch_pal.substitutions import RobotInfoFile
+from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 from tiago_pro_description.launch_arguments import TiagoProArgs
 
 

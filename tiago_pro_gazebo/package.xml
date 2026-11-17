@@ -11,13 +11,10 @@
 
   <buildtool_depend>ament_cmake_auto</buildtool_depend>
 
-  <exec_depend>gazebo_plugins</exec_depend>
-  <exec_depend>pal_gazebo_plugins</exec_depend>
   <exec_depend>pal_gazebo_worlds</exec_depend>
   <exec_depend>pal_maps</exec_depend>
   <exec_depend>tiago_pro_bringup</exec_depend>
   <exec_depend>pal_pro_gripper_description</exec_depend>
-  <exec_depend condition="$PAL_DISTRO >= alum">allegro_hand_description</exec_depend>
   <exec_depend>tiago_pro_head_description</exec_depend>
   <exec_depend>omni_base_description</exec_depend>
   <exec_depend>tiago_pro_description</exec_depend>
@@ -26,13 +23,24 @@
   <exec_depend>tiago_pro_laser_sensors</exec_depend>
   <exec_depend>tiago_pro_rgbd_sensors</exec_depend>
   <exec_depend>pal_urdf_utils</exec_depend>
-  <exec_depend>gazebo_ros2_control</exec_depend>
-  <exec_depend>gazebo_ros</exec_depend>
   <exec_depend>gz_ros2_control</exec_depend>
-  <exec_depend>gz-sensors6</exec_depend>
+  <exec_depend>nav2_bringup</exec_depend>
+
+  <exec_depend condition="$PAL_DISTRO >= alum">allegro_hand_description</exec_depend>
   <exec_depend condition="$PAL_DISTRO >= alum">robot_info_publisher</exec_depend>
   <exec_depend condition="$PAL_DISTRO >= alum">pal_configuration_manager</exec_depend>
-  <exec_depend>nav2_bringup</exec_depend>
+
+  <!-- Gazebo (Harmonic and later) packages for jazzy+ -->
+  <exec_depend condition="$ROS_DISTRO >= jazzy">gz_sensors_vendor</exec_depend>
+
+  <!-- Gazebo Fortress packages for humble -->
+  <exec_depend condition="$ROS_DISTRO == humble">gz-sensors6</exec_depend>
+
+  <!-- Gazebo Classic packages -->
+  <exec_depend condition="$ROS_DISTRO == humble">gazebo_plugins</exec_depend>
+  <exec_depend condition="$ROS_DISTRO == humble">pal_gazebo_plugins</exec_depend>
+  <exec_depend condition="$ROS_DISTRO == humble">gazebo_ros2_control</exec_depend>
+  <exec_depend condition="$ROS_DISTRO == humble">gazebo_ros</exec_depend>
 
   <exec_depend>launch</exec_depend>
   <exec_depend>launch_pal</exec_depend>

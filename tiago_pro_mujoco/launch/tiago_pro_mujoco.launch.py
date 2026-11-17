@@ -13,28 +13,24 @@
 # limitations under the License.
 
 
+from dataclasses import dataclass
 import os
+
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import (
-    DeclareLaunchArgument,
-    SetLaunchConfiguration,
-    OpaqueFunction,
-)
+from launch.actions import DeclareLaunchArgument, OpaqueFunction, SetLaunchConfiguration
 from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration
-
+from launch_pal.actions import CheckPublicSim
+from launch_pal.arg_utils import LaunchArgumentsBase
 from launch_pal.include_utils import (
     include_scoped_launch_py_description,
 )
-from launch_pal.actions import CheckPublicSim
 
-from launch_pal.arg_utils import LaunchArgumentsBase
 from launch_pal.robot_arguments import CommonArgs
-from tiago_pro_description.launch_arguments import TiagoProArgs
-from dataclasses import dataclass
 from launch_ros.actions import Node
+from tiago_pro_description.launch_arguments import TiagoProArgs
 
 
 @dataclass(frozen=True)
@@ -68,10 +64,10 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
 
     # Check that the requested MuJoCo scene exists before the xacro is processed
     def check_world_name(context, *args, **kwargs):
-        world_name = LaunchConfiguration("world_name").perform(context)
-        scenes_dir = os.path.join(get_package_share_directory("pal_mujoco_scenes"), "scenes")
+        world_name = LaunchConfiguration('world_name').perform(context)
+        scenes_dir = os.path.join(get_package_share_directory('pal_mujoco_scenes'), 'scenes')
         available_scenes = sorted(
-            os.path.splitext(f)[0] for f in os.listdir(scenes_dir) if f.endswith(".xacro"))
+            os.path.splitext(f)[0] for f in os.listdir(scenes_dir) if f.endswith('.xacro'))
         if world_name not in available_scenes:
             raise RuntimeError(
                 f"MuJoCo scene '{world_name}' not found in {scenes_dir}. "
@@ -80,7 +76,7 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
     launch_description.add_action(OpaqueFunction(function=check_world_name))
 
     # Set use_sim_time to True
-    set_sim_time = SetLaunchConfiguration("use_sim_time", "True")
+    set_sim_time = SetLaunchConfiguration('use_sim_time', 'True')
     launch_description.add_action(set_sim_time)
 
     # Set simulation_type to Mujoco Ros2 Control
@@ -91,7 +87,7 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
     public_sim_check = CheckPublicSim()
     launch_description.add_action(public_sim_check)
 
-    robot_name = "tiago_pro"
+    robot_name = 'tiago_pro'
 
     # Use decomposed meshes for the base of the robot
     omni_base_asset_path = os.path.join(
@@ -104,27 +100,27 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
     )
 
     tiago_bringup = include_scoped_launch_py_description(
-        pkg_name="tiago_pro_bringup", paths=["launch", "tiago_pro_bringup.launch.py"],
+        pkg_name='tiago_pro_bringup', paths=['launch', 'tiago_pro_bringup.launch.py'],
         launch_arguments={
-            "use_sim_time": LaunchConfiguration("use_sim_time"),
-            "arm_type_right": launch_args.arm_type_right,
-            "arm_type_left": launch_args.arm_type_left,
-            "end_effector_right": launch_args.end_effector_right,
-            "end_effector_left": launch_args.end_effector_left,
-            "wrist_model_right": launch_args.wrist_model_right,
-            "wrist_model_left": launch_args.wrist_model_left,
-            "ft_sensor_right": launch_args.ft_sensor_right,
-            "ft_sensor_left": launch_args.ft_sensor_left,
-            "tool_changer_right": launch_args.tool_changer_right,
-            "tool_changer_left": launch_args.tool_changer_left,
-            "laser_model": launch_args.laser_model,
-            "camera_model": launch_args.camera_model,
-            "base_type": launch_args.base_type,
-            "is_public_sim": launch_args.is_public_sim,
-            "has_wrist_camera": launch_args.has_wrist_camera,
-            "sim_type": LaunchConfiguration("sim_type"),
-            "mj_control": LaunchConfiguration("mj_control"),
-            "world_name": launch_args.world_name,
+            'use_sim_time': LaunchConfiguration('use_sim_time'),
+            'arm_type_right': launch_args.arm_type_right,
+            'arm_type_left': launch_args.arm_type_left,
+            'end_effector_right': launch_args.end_effector_right,
+            'end_effector_left': launch_args.end_effector_left,
+            'wrist_model_right': launch_args.wrist_model_right,
+            'wrist_model_left': launch_args.wrist_model_left,
+            'ft_sensor_right': launch_args.ft_sensor_right,
+            'ft_sensor_left': launch_args.ft_sensor_left,
+            'tool_changer_right': launch_args.tool_changer_right,
+            'tool_changer_left': launch_args.tool_changer_left,
+            'laser_model': launch_args.laser_model,
+            'camera_model': launch_args.camera_model,
+            'base_type': launch_args.base_type,
+            'is_public_sim': launch_args.is_public_sim,
+            'has_wrist_camera': launch_args.has_wrist_camera,
+            'sim_type': LaunchConfiguration('sim_type'),
+            'mj_control': LaunchConfiguration('mj_control'),
+            'world_name': launch_args.world_name,
             'ft_sensor_teleop_right': launch_args.ft_sensor_teleop_right,
             'ft_sensor_teleop_left': launch_args.ft_sensor_teleop_left,
             'has_teleop_arms': launch_args.has_teleop_arms,
@@ -137,15 +133,15 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
     # Launch the conversion node
     def converter_node_setup(context, *args, **kwargs):
         args_list = [
-            "-p", "mujoco_robot_description",
-            "--no-fuse",
-            "-f",
-            "-a", omni_base_asset_path,
+            '-p', 'mujoco_robot_description',
+            '--no-fuse',
+            '-f',
+            '-a', omni_base_asset_path,
         ]
         return [Node(
-            package="mujoco_ros2_control",
-            executable="robot_description_to_mjcf.sh",
-            output="both",
+            package='mujoco_ros2_control',
+            executable='robot_description_to_mjcf.sh',
+            output='both',
             emulate_tty=True,
             arguments=args_list,
         )]
@@ -154,11 +150,11 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
 
     # Mujoco Ros2 Control Simulation
     control_node = Node(
-        package="mujoco_ros2_control",
-        executable="ros2_control_node",
-        output="both",
+        package='mujoco_ros2_control',
+        executable='ros2_control_node',
+        output='both',
         parameters=[
-            {"use_sim_time": LaunchConfiguration("use_sim_time")},
+            {'use_sim_time': LaunchConfiguration('use_sim_time')},
             mujoco_plugins_path,
         ],
     )
@@ -176,25 +172,25 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
     launch_description.add_action(odom_tf_node)
 
     move_group = include_scoped_launch_py_description(
-        pkg_name="tiago_pro_moveit_config",
-        paths=["launch", "move_group.launch.py"],
+        pkg_name='tiago_pro_moveit_config',
+        paths=['launch', 'move_group.launch.py'],
         launch_arguments={
-            "robot_name": robot_name,
-            "use_sim_time": LaunchConfiguration("use_sim_time"),
-            "base_type": launch_args.base_type,
-            "arm_type_right": launch_args.arm_type_right,
-            "arm_type_left": launch_args.arm_type_left,
-            "wrist_model_right": launch_args.wrist_model_left,
-            "wrist_model_left": launch_args.wrist_model_right,
-            "end_effector_right": launch_args.end_effector_right,
-            "end_effector_left": launch_args.end_effector_left,
-            "ft_sensor_right": launch_args.ft_sensor_right,
-            "ft_sensor_left": launch_args.ft_sensor_left,
+            'robot_name': robot_name,
+            'use_sim_time': LaunchConfiguration('use_sim_time'),
+            'base_type': launch_args.base_type,
+            'arm_type_right': launch_args.arm_type_right,
+            'arm_type_left': launch_args.arm_type_left,
+            'wrist_model_right': launch_args.wrist_model_left,
+            'wrist_model_left': launch_args.wrist_model_right,
+            'end_effector_right': launch_args.end_effector_right,
+            'end_effector_left': launch_args.end_effector_left,
+            'ft_sensor_right': launch_args.ft_sensor_right,
+            'ft_sensor_left': launch_args.ft_sensor_left,
             'ft_sensor_teleop_right': launch_args.ft_sensor_teleop_right,
             'ft_sensor_teleop_left': launch_args.ft_sensor_teleop_left,
             'has_teleop_arms': launch_args.has_teleop_arms,
         },
-        condition=IfCondition(LaunchConfiguration("moveit")))
+        condition=IfCondition(LaunchConfiguration('moveit')))
 
     launch_description.add_action(move_group)
 

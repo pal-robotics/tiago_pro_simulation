@@ -13,22 +13,22 @@
 # limitations under the License.
 
 
+from dataclasses import dataclass
 import os
 
 from ament_index_python import get_package_share_directory
 from launch import LaunchDescription
 
-from launch_ros.actions import Node
-from dataclasses import dataclass
 from launch.conditions import LaunchConfigurationEquals
 from launch_pal.arg_utils import DeclareLaunchArgument, LaunchArgumentsBase, LaunchConfiguration
 from launch_pal.robot_arguments import CommonArgs
+from launch_ros.actions import Node
 
 
 @dataclass(frozen=True)
 class LaunchArguments(LaunchArgumentsBase):
     robot_name: DeclareLaunchArgument = DeclareLaunchArgument(
-        name="robot_name", description="Gazebo model name"
+        name='robot_name', description='Gazebo model name'
     )
 
     gazebo_version: DeclareLaunchArgument = CommonArgs.gazebo_version
@@ -49,24 +49,24 @@ def generate_launch_description():
 
 def declare_actions(launch_description: LaunchDescription, launch_args: LaunchArguments):
 
-    robot_entity = Node(package="gazebo_ros", executable="spawn_entity.py",
-                        arguments=["-topic", "robot_description",
-                                   "-entity", "tiago-pro",
+    robot_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
+                        arguments=['-topic', 'robot_description',
+                                   '-entity', 'tiago-pro',
                                    #    "-x", "0.0", "-y", "0.0", "-z", "0.08",
                                    ],
-                        output="screen",
+                        output='screen',
                         condition=LaunchConfigurationEquals('gazebo_version', 'classic'),)
     launch_description.add_action(robot_entity)
 
     gazebo_spawn_robot = Node(
-        package="ros_gz_sim",
-        executable="create",
-        output="screen",
+        package='ros_gz_sim',
+        executable='create',
+        output='screen',
         arguments=[
-            "-model",
-            LaunchConfiguration("robot_name"),
-            "-topic",
-            "robot_description",
+            '-model',
+            LaunchConfiguration('robot_name'),
+            '-topic',
+            'robot_description',
         ],
         condition=LaunchConfigurationEquals('gazebo_version', 'gazebo'),
     )
