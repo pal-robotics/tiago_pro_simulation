@@ -2,6 +2,11 @@
 Changelog for package tiago_pro_simulation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* ci2 reformat
+* Contributors: matteovillani
+
 1.19.1 (2026-11-17)
 -------------------
 

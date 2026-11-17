@@ -2,6 +2,12 @@
 Changelog for package tiago_pro_gazebo
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix gazebo dependencies
+* ci2 reformat
+* Contributors: Andrew Hoelscher, matteovillani
+
 1.19.1 (2026-11-17)
 -------------------
 

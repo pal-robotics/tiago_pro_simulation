@@ -2,6 +2,21 @@
 Changelog for package tiago_pro_mujoco
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* remove comment
+* fix flake8 errors
+* remove comments from yaml file
+* improve log
+* add the plugin for the gravity compensation
+* update the puid values for the mujoco simulation
+* Missing cadmium linting fixes
+* ci2 reformat
+* Fix the flake8 and pep257 errors of the odom TF node
+* wrong frame name
+* Publish the TF odom -> base_footprint from the base's true pose in MuJoCo
+* Contributors: Andrew Hoelscher, Ortisa Poci, matteovillani, michelacavuoto
+
 1.19.1 (2026-11-17)
 -------------------
 * Revert "update the puid values for the mujoco simulation"
