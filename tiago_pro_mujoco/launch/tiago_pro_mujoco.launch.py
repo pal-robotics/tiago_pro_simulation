@@ -24,6 +24,7 @@ from launch.actions import (
 )
 from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration
+
 from launch_pal.include_utils import (
     include_scoped_launch_py_description,
 )
@@ -65,6 +66,19 @@ class LaunchArguments(LaunchArgumentsBase):
 
 def declare_actions(launch_description: LaunchDescription, launch_args: LaunchArguments):
 
+    # Check that the requested MuJoCo scene exists before the xacro is processed
+    def check_world_name(context, *args, **kwargs):
+        world_name = LaunchConfiguration("world_name").perform(context)
+        scenes_dir = os.path.join(get_package_share_directory("pal_mujoco_scenes"), "scenes")
+        available_scenes = sorted(
+            os.path.splitext(f)[0] for f in os.listdir(scenes_dir) if f.endswith(".xacro"))
+        if world_name not in available_scenes:
+            raise RuntimeError(
+                f"MuJoCo scene '{world_name}' not found in {scenes_dir}. "
+                f"Available scenes: {', '.join(available_scenes)}")
+        return []
+    launch_description.add_action(OpaqueFunction(function=check_world_name))
+
     # Set use_sim_time to True
     set_sim_time = SetLaunchConfiguration("use_sim_time", "True")
     launch_description.add_action(set_sim_time)
@@ -72,10 +86,6 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
     # Set simulation_type to Mujoco Ros2 Control
     set_sim_type = SetLaunchConfiguration('sim_type', 'mujoco-ros2-control')
     launch_description.add_action(set_sim_type)
-
-    # Set world for Mujoco simulation
-    set_world_name = SetLaunchConfiguration('world_name', 'floor')
-    launch_description.add_action(set_world_name)
 
     # Shows error if is_public_sim is not set to True when using public simulation
     public_sim_check = CheckPublicSim()
@@ -88,6 +98,10 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
         get_package_share_directory('omni_base_description'),
         'mujoco', 'assets'
     )
+    mujoco_plugins_path = os.path.join(
+        get_package_share_directory('tiago_pro_mujoco'),
+        'config', 'mujoco_ros2_control_plugins.yaml'
+    )
 
     tiago_bringup = include_scoped_launch_py_description(
         pkg_name="tiago_pro_bringup", paths=["launch", "tiago_pro_bringup.launch.py"],
@@ -97,8 +111,8 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
             "arm_type_left": launch_args.arm_type_left,
             "end_effector_right": launch_args.end_effector_right,
             "end_effector_left": launch_args.end_effector_left,
-            "wrist_model_right": launch_args.wrist_model_left,
-            "wrist_model_left": launch_args.wrist_model_right,
+            "wrist_model_right": launch_args.wrist_model_right,
+            "wrist_model_left": launch_args.wrist_model_left,
             "ft_sensor_right": launch_args.ft_sensor_right,
             "ft_sensor_left": launch_args.ft_sensor_left,
             "tool_changer_right": launch_args.tool_changer_right,
@@ -110,7 +124,7 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
             "has_wrist_camera": launch_args.has_wrist_camera,
             "sim_type": LaunchConfiguration("sim_type"),
             "mj_control": LaunchConfiguration("mj_control"),
-            "world_name": LaunchConfiguration("world_name"),
+            "world_name": launch_args.world_name,
             'ft_sensor_teleop_right': launch_args.ft_sensor_teleop_right,
             'ft_sensor_teleop_left': launch_args.ft_sensor_teleop_left,
             'has_teleop_arms': launch_args.has_teleop_arms,
@@ -145,6 +159,7 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
         output="both",
         parameters=[
             {"use_sim_time": LaunchConfiguration("use_sim_time")},
+            mujoco_plugins_path,
         ],
     )
 

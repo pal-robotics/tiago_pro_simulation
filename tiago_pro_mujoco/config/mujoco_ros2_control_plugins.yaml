@@ -1,0 +1,36 @@
+/**:
+  ros__parameters:
+    mujoco_plugins:
+      heart_beat_plugin:
+        type: "mujoco_ros2_control_plugins/HeartbeatPublisherPlugin"
+        update_rate: 1.0
+      free_joint_state_publisher:
+        type: "mujoco_ros2_control_plugins/FreeJointStatePublisherPlugin"
+        frame_id: ""
+        publish_rate: 50.0
+      mujoco_camera_plugin:
+        type: "mujoco_ros2_control_plugins/CameraPlugin"
+        camera_publish_rate: 30.0
+        head:
+          policy: streaming
+          frame_name: head_front_camera_color_optical_frame
+          info_topic: /head_front_camera/color/camera_info
+          image_topic: /head_front_camera/color/image_raw
+          depth_topic: /head_front_camera/aligned_depth_to_color/image_raw
+        # Only registered when the robot is launched with has_wrist_camera:=True
+        wrist_left:
+          policy: streaming
+          frame_name: gripper_left_front_camera_color_optical_frame
+          info_topic: /gripper_left_front_camera/color/camera_info
+          image_topic: /gripper_left_front_camera/color/image_raw
+          depth_topic: /gripper_left_front_camera/aligned_depth_to_color/image_raw
+        wrist_right:
+          policy: streaming
+          frame_name: gripper_right_front_camera_color_optical_frame
+          info_topic: /gripper_right_front_camera/color/camera_info
+          image_topic: /gripper_right_front_camera/color/image_raw
+          depth_topic: /gripper_right_front_camera/aligned_depth_to_color/image_raw
+      base_velocity_plugin:
+        type: "mujoco_ros2_control_plugins/BaseVelocityPlugin"
+        body: base_footprint
+        cmd_vel_topic: /cmd_vel
