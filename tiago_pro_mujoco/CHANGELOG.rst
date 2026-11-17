@@ -2,8 +2,8 @@
 Changelog for package tiago_pro_mujoco
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.19.1 (2026-11-17)
+-------------------
 * Revert "update the puid values for the mujoco simulation"
   This reverts commit 5995745091dff941ea7e0df12d3acb09fd7ce4ed.
 * update the puid values for the mujoco simulation
