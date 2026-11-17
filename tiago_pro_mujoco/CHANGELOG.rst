@@ -2,6 +2,18 @@
 Changelog for package tiago_pro_mujoco
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Revert "update the puid values for the mujoco simulation"
+  This reverts commit 5995745091dff941ea7e0df12d3acb09fd7ce4ed.
+* update the puid values for the mujoco simulation
+* check that the scene exists before generating the model
+* remove world_model check from the mj launch file
+* add mujoco plugins for ros2_control
+* fix argument
+* adapt to multiple mujoco scenes
+* Contributors: Ortisa Poci
+
 1.19.0 (2026-08-24)
 -------------------
 
