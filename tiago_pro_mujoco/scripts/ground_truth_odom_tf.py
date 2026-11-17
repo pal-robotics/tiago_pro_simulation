@@ -38,9 +38,9 @@ planar : bool
 
 import math
 
-import rclpy
 from geometry_msgs.msg import TransformStamped
 from mujoco_ros2_control_msgs.msg import FreeJointStateArray
+import rclpy
 from rclpy.node import Node
 from tf2_ros import TransformBroadcaster
 
