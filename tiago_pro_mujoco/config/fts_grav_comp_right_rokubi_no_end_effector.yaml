@@ -1,0 +1,10 @@
+/**:
+  ros__parameters:
+    mujoco_plugins:
+      fts_grav_comp_right:
+        type: "mujoco_ros2_control_plugins/FtsGravCompPlugin"
+        wrist_right_ft_sensor:
+          frame_id: arm_right_tool_link
+          CoG:
+            pos: [-0.0004, 0.0003, 0.0277]
+            mass: 0.5011

@@ -149,17 +149,35 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
     launch_description.add_action(OpaqueFunction(function=converter_node_setup))
 
     # Mujoco Ros2 Control Simulation
-    control_node = Node(
-        package='mujoco_ros2_control',
-        executable='ros2_control_node',
-        output='both',
-        parameters=[
+    def control_node_setup(context, *args, **kwargs):
+        parameters = [
             {'use_sim_time': LaunchConfiguration('use_sim_time')},
             mujoco_plugins_path,
-        ],
-    )
+        ]
+        # FTS gravity compensation only for the wrists with a force/torque sensor:
+        # the plugin fails to load if the sensor is not in the model
+        config_dir = os.path.join(get_package_share_directory('tiago_pro_mujoco'), 'config')
+        for side in ('right', 'left'):
+            ft_sensor = LaunchConfiguration(f'ft_sensor_{side}').perform(context)
+            if ft_sensor == 'no-ft-sensor':
+                continue
+            end_effector = LaunchConfiguration(
+                f'end_effector_{side}').perform(context).replace('-', '_')
+            config_file = os.path.join(
+                config_dir, f'fts_grav_comp_{side}_{ft_sensor}_{end_effector}.yaml')
+            if os.path.exists(config_file):
+                parameters.append(config_file)
+            else:
+                print(f'No FTS gravity compensation for the {side} wrist: '
+                      f'{os.path.basename(config_file)} not found')
+        return [Node(
+            package='mujoco_ros2_control',
+            executable='ros2_control_node',
+            output='both',
+            parameters=parameters,
+        )]
 
-    launch_description.add_action(control_node)
+    launch_description.add_action(OpaqueFunction(function=control_node_setup))
 
     # The TF odom -> base_footprint, from the base's true pose (nothing publishes it in MuJoCo)
     odom_tf_node = Node(
