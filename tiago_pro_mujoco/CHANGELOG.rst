@@ -2,8 +2,8 @@
 Changelog for package tiago_pro_mujoco
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.19.2 (2026-11-17)
+-------------------
 * remove comment
 * fix flake8 errors
 * remove comments from yaml file
