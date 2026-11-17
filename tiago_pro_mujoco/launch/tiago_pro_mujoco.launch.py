@@ -151,7 +151,7 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
     # Mujoco Ros2 Control Simulation
     def control_node_setup(context, *args, **kwargs):
         parameters = [
-            {"use_sim_time": LaunchConfiguration("use_sim_time")},
+            {'use_sim_time': LaunchConfiguration('use_sim_time')},
             mujoco_plugins_path,
         ]
         # FTS gravity compensation only for the wrists with a force/torque sensor:
@@ -162,17 +162,19 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
             if ft_sensor == 'no-ft-sensor':
                 continue
             # the load on the sensor depends on the end effector: one file per sensor and end effector
-            end_effector = LaunchConfiguration(f'end_effector_{side}').perform(context).replace('-', '_')
-            config_file = os.path.join(config_dir, f'fts_grav_comp_{side}_{ft_sensor}_{end_effector}.yaml')
+            end_effector = LaunchConfiguration(
+                f'end_effector_{side}').perform(context).replace('-', '_')
+            config_file = os.path.join(
+                config_dir, f'fts_grav_comp_{side}_{ft_sensor}_{end_effector}.yaml')
             if os.path.exists(config_file):
                 parameters.append(config_file)
             else:
                 print(f'No FTS gravity compensation for the {side} wrist: '
                       f'{os.path.basename(config_file)} not found')
         return [Node(
-            package="mujoco_ros2_control",
-            executable="ros2_control_node",
-            output="both",
+            package='mujoco_ros2_control',
+            executable='ros2_control_node',
+            output='both',
             parameters=parameters,
         )]
 
