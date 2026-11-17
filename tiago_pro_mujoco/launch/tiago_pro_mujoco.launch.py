@@ -161,7 +161,6 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
             ft_sensor = LaunchConfiguration(f'ft_sensor_{side}').perform(context)
             if ft_sensor == 'no-ft-sensor':
                 continue
-            # the load on the sensor depends on the end effector: one file per sensor and end effector
             end_effector = LaunchConfiguration(
                 f'end_effector_{side}').perform(context).replace('-', '_')
             config_file = os.path.join(
